@@ -16,15 +16,20 @@ namespace LAB_2_KPI
         public int length { get; }
         public DinArr(int length)
         {
-            this.arr = new int[length];
+            if (length < 0)
+                length = 0;
+            arr = new int[length];
             this.length = length;
         }
 
         [JsonConstructor]
         public DinArr(int[] arr)
         {
-            this.arr = arr;
-            length = arr.Length;
+            if (arr != null)
+                this.arr = arr;
+            else
+                this.arr = new int[0];
+            length = this.arr.Length;
         }
         ~DinArr()
         {
@@ -96,8 +101,7 @@ namespace LAB_2_KPI
         static DinArr LoadJson()
         {
             string json = File.ReadAllText("json.json");
-            DinArr b = JsonSerializer.Deserialize<DinArr>(json);
-            return b;
+            return JsonSerializer.Deserialize<DinArr>(json);
         }
     }
 }
